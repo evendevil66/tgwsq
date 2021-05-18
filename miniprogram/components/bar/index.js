@@ -1,10 +1,24 @@
 const app = getApp()
+
+wx.cloud.callFunction({
+  name: 'login',
+  data: {},
+  success: res => {
+    console.log('[云函数] [login] user openid: ', res.result.openid)
+    app.globalData.openid = res.result.openid
+  },
+  fail: err => {
+    console.error('[云函数] [login] 调用失败', err)
+  }
+})
+
 Component({
   properties: {
     navbarData:{
       type:Object,
       value:{
-        title:""
+        title:"",
+        show:false
       }
     },
   },
@@ -33,9 +47,14 @@ Component({
   // 发帖
     _navnew() {
       wx.navigateTo({
-        url: '/pages/mine/mine',//发帖的地址
+        url: '/pages/post/post',//发帖的地址
       })
-    }
+    },
+    _navback(){
+      wx.navigateBack({
+        delta: 1
+      })      
+  },
   }
  
 }) 

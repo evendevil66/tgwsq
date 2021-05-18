@@ -2,6 +2,28 @@
 const app = getApp()
 
 Page({
+    onLoad() {
+        this.setData({
+            search: this.search.bind(this)
+        })
+    },
+    search: function (value) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+              if(value!=""){
+                console.log('111')
+                resolve([{text: value+"是什么", value: 1}, {text: value+"在哪", value: 2}])
+              }else{
+                console.log('000')
+                resolve([]);
+              }
+            }, 1)
+        })
+    },
+    selectResult: function (e) {
+        console.log('select result', e.detail)
+    },
+
   data: {
     avatarUrl: './user-unlogin.png',
     userInfo: {},
@@ -12,24 +34,13 @@ Page({
     canIUseGetUserProfile: false,
     canIUseOpenData: wx.canIUse('open-data.type.userAvatarUrl'), // 如需尝试获取用户信息可改为false,
     navbarData:{
-      title: "太原工业微社区"
-    }
+      title: "太原工业微社区",
+      show:1
+    },
+    items:['推荐','二手闲置','悬赏问答','寻人问答','校园拼车','学术讨论'],
   },
 
 
-  onLoad: function() {
-    if (!wx.cloud) {
-      wx.redirectTo({
-        url: '../chooseLib/chooseLib',
-      })
-      return
-    }
-    if (wx.getUserProfile) {
-      this.setData({
-        canIUseGetUserProfile: true,
-      })
-    }
-  },
 
   getUserProfile() {
     // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗

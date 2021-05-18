@@ -1,0 +1,37 @@
+<custom-nav-bar navbarData="{{navbarData}}" />
+<view style="margin-top:{{mtop}}">
+<mp-form id="form"models="{{formData}}">
+  <!--文本域-->
+  <view class="weui-cells__title">请输入文本</view>
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell">
+      <view class="weui-cell__bd">
+          <textarea class="weui-textarea" placeholder="发帖请遵守社区规则、校园守则及法律法规，请不要水帖哦~" style="height: 6.3em" 
+          bindinput="TextareaInput" maxlength="200" />
+        <view class="weui-textarea-counter">{{length}}/200</view>
+      </view>
+    </view>
+  </view>
+  <!--图片-->
+  <view class="page__bd">
+    <mp-cells>
+      <mp-cell>
+        <mp-uploader bindfail="uploadError" bindsuccess="uploadSuccess" select="{{selectFile}}" upload="{{uplaodFile}}" files="{{files}}" max-count="9"></mp-uploader>
+      </mp-cell>
+    </mp-cells>
+  </view>
+
+  <!--板块选择-->
+  <view class="weui-cell weui-cell_select">
+    <view class="weui-cell__bd">
+      <picker bindchange="bindSectionChange" value="{{sectionIndex}}" range="{{sections}}" data-field="change">
+        <view class="weui-select">{{sections[sectionIndex]}}</view>
+      </picker>
+    </view>
+  </view>
+  <!--提交-->
+  <view class="weui-btn-area" style="margin-top:10px">
+    <button class="weui-btn" type="primary" bindtap="submitForm">发布</button>
+  </view>
+</mp-form>
+</view>

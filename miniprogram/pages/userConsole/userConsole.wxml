@@ -1,5 +1,6 @@
 <!--pages/userConsole/userConsole.wxml-->
-<view class="container">
+<custom-nav-bar navbarData="{{navbarData}}" />
+<view class="container" style="margin-top:60px">
 
   <view class="list">
     <view class="list-item" bindtap="testCgi">

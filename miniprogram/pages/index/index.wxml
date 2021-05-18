@@ -1,3 +1,91 @@
+<custom-nav-bar navbarData="{{navbarData}}" />
+
+<!--保持顶栏始终置顶-->
+<view style="position:fixed;top:0;left:0;right:0">
+<view class="tabbar">
+  <tab-bar items="{{items}}" />
+</view>
+<view class="search">
+  <mp-searchbar bindselectresult="selectResult" search="{{search}}"></mp-searchbar>
+</view>
+</view>
+
+<!--占位顶栏高度-->
+<view class="page__hd2" style="visibility:hidden;">
 <view>
-  <custom-nav-bar navbarData="{{navbarData}}" />
-</view> 
+  <tab-bar items="{{items}}" />
+</view>
+<view>
+<mp-searchbar ></mp-searchbar>
+</view>
+</view>
+
+<view>
+  测试1
+</view>
+<view>
+  测试2
+</view>
+<view>
+  测试3
+</view>
+<view>
+  测试4
+</view><view>
+  测试5
+</view><view>
+  测试6
+</view><view>
+  测试7
+</view><view>
+  测试8
+</view><view>
+  测试9
+</view><view>
+  测试10
+</view><view>
+  测试1
+</view><view>
+  测试1
+</view><view>
+  测试1
+</view><view>
+  测试1
+</view><view>
+  测试1
+</view><view>
+  测试1
+</view><view>
+  测试1
+</view><view>
+  测试1
+</view><view>
+  测试10<view>
+  测试1
+</view><view>
+  测试1
+</view><view>
+  测试1
+</view><view>
+  测试1
+</view><view>
+  测试1
+</view><view>
+  测试1
+</view><view>
+  测试1
+</view><view>
+  测试1
+</view><view>
+  测试1
+</view><view>
+  测试1
+</view><view>
+  测试1
+</view><view>
+  测试1
+</view><view>
+  测试15
+</view>
+</view>
+

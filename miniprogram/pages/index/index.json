@@ -1,5 +1,7 @@
 {
   "usingComponents": {
-    "custom-nav-bar":"/components/bar/index"
+    "custom-nav-bar":"/components/bar/index",
+    "tab-bar":"/components/tab/index",
+    "mp-searchbar": "weui-miniprogram/searchbar/searchbar"
   }
 }
