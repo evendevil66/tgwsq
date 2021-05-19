@@ -3,6 +3,9 @@ const app = getApp()
 
 Page({
     onLoad() {
+      wx.cloud.init({
+        env: 'moment-7gyx9ooq74b057e1'
+      }),
         this.setData({
             search: this.search.bind(this)
         })

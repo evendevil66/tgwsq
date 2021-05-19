@@ -6,7 +6,7 @@
   <view class="weui-cells weui-cells_after-title">
     <view class="weui-cell">
       <view class="weui-cell__bd">
-          <textarea class="weui-textarea" placeholder="发帖请遵守社区规则、校园守则及法律法规，请不要水帖哦~" style="height: 6.3em" 
+          <textarea class="weui-textarea" placeholder="发帖请遵守社区规则、校园守则及法律法规，请不要水帖哦~" style="height: 9.3em" 
           bindinput="TextareaInput" maxlength="200" />
         <view class="weui-textarea-counter">{{length}}/200</view>
       </view>

@@ -105,12 +105,19 @@ Page({
     // 返回false可以阻止某次文件上传
   },
   uplaodFile(files) {
+    var that = this;
     console.log('upload files', files)
     // 文件上传的函数，返回一个promise
     return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        reject('some error')
-      }, 1000)
+      var tempFilePaths = files.tempFilePaths;
+      that.setData({
+        urlArr: []
+      });
+      var object = {};
+      for (var i = 0; i < tempFilePaths.length; i++) {
+        
+      }
+
     })
   },
   uploadError(e) {
