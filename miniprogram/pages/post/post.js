@@ -12,8 +12,11 @@ Page({
     sectionIndex: 0,
     navbarData: {
       title: "发帖",
-      show: 0
+      show: 0,
+      back: 1
     },
+    urlArr: [],
+    fileID: []
   },
 
   /**
@@ -110,14 +113,59 @@ Page({
     // 文件上传的函数，返回一个promise
     return new Promise((resolve, reject) => {
       var tempFilePaths = files.tempFilePaths;
+
       that.setData({
-        urlArr: []
+        urlArr: [],
+        fileID: []
       });
-      var object = {};
+      var object = [];
+      object['urls'] = [];
+      var flag = false;
+      var count = 0;
       for (var i = 0; i < tempFilePaths.length; i++) {
-        
+        var extension = tempFilePaths[i].substr(tempFilePaths[i].lastIndexOf("."));
+        console.log("扩展名：" + extension);
+        wx.cloud.uploadFile({
+          cloudPath: 'uploadImg/' + new Date().getTime() + Math.ceil(Math.random() * 1000) + extension, // 上传至云端的路径
+          filePath: tempFilePaths[i], // 小程序临时文件路径
+          success: res => {
+            console.log("上传成功fileID:" + res.fileID);
+            //返回文件id到全局数据
+            that.setData({
+              ['fileID[' + (i - 1) + ']']: res.fileID
+            });
+            wx.cloud.getTempFileURL({
+              fileList: [that.data.fileID[(i - 1)]],
+              success: res => {
+                console.log("临时url:", res.fileList[0].tempFileURL);
+                //返回url到全局数据
+                that.setData({
+                  ['urlArr[' + (i - 1) + ']']: res.fileList[0].tempFileURL
+                });
+                object['urls'] = object['urls'].concat(res.fileList[0].tempFileURL);
+              },
+              fail: console.error
+            })
+          },
+          fail: console.error
+        });
+        if ((i + 1) >= tempFilePaths.length) {
+          flag = true;
+        }
       }
 
+      var re = setInterval(() => {
+        if (object['urls'].length > 0 && flag) {
+          resolve(object);
+          clearInterval(re);
+        } else {
+          count++
+          if (count > 100) {
+            reject('上传超时')
+            clearInterval(re);
+          }
+        }
+      }, 100)
     })
   },
   uploadError(e) {
@@ -135,26 +183,26 @@ Page({
   },
   submitForm() {
     console.log(this.data.length);
-      if (this.data.length === 0) {
-        wx.showToast({
-          title: '请先编辑帖子',
-          icon:'error'
+    if (this.data.length === 0) {
+      wx.showToast({
+        title: '请先编辑帖子',
+        icon: 'error'
       })
-      }else if(this.data.length < 10){
-        wx.showToast({
-          title: '最少10字哦',
-          icon:'error'
+    } else if (this.data.length < 10) {
+      wx.showToast({
+        title: '最少10字哦',
+        icon: 'error'
       })
-      }else if(this.data.sectionIndex === '0'){
-        wx.showToast({
-          title: '请选择板块',
-          icon:'error'
+    } else if (this.data.sectionIndex === '0' || this.data.sectionIndex === 0) {
+      wx.showToast({
+        title: '请选择板块',
+        icon: 'error'
       })
-      }else {
-        console.log('sectionIndex', this.data.sectionIndex);
-        wx.showToast({
-          title: '提交成功'
-        })
-      }
+    } else {
+      console.log('sectionIndex', this.data.sectionIndex);
+      wx.showToast({
+        title: '提交成功'
+      })
+    }
   }
 })

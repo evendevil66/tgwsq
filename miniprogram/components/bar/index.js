@@ -18,7 +18,8 @@ Component({
       type:Object,
       value:{
         title:"",
-        show:false
+        show:false,
+        back:false
       }
     },
   },
