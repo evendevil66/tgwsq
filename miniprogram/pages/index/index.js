@@ -43,6 +43,28 @@ Page({
     items:['推荐','二手闲置','悬赏问答','寻人问答','校园拼车','学术讨论'],
   },
 
+  imgTap:function(e){
+      /**console.log(e.currentTarget.dataset.src)
+      var urls=[];
+      urls['urls'] = [];
+      urls['urls']=urls['urls'].concat("./"+e.currentTarget.dataset.src)
+      this.previewImage("./"+e.currentTarget.dataset.src,urls['urls'])
+      console.log(urls['urls']);**/
+      var url="https://6d6f-moment-7gyx9ooq74b057e1-1305621815.tcb.qcloud.la/uploadImg/1621668378646182.jpg";
+      var urls=[];
+      urls['urls'] = [];
+      urls['urls']=urls['urls'].concat(url);
+      this.previewImage(url,urls['urls'])
+      
+  },
+
+  previewImage: function (url,urls) {
+    wx.previewImage({
+      current: url, // 当前显示图片的http链接
+      urls: urls // 需要预览的图片http链接列表
+    })
+  },
+
 
 
   getUserProfile() {
@@ -87,54 +109,6 @@ Page({
         wx.navigateTo({
           url: '../deployFunctions/deployFunctions',
         })
-      }
-    })
-  },
-
-  // 上传图片
-  doUpload: function () {
-    // 选择图片
-    wx.chooseImage({
-      count: 1,
-      sizeType: ['compressed'],
-      sourceType: ['album', 'camera'],
-      success: function (res) {
-        wx.showLoading({
-          title: '上传中',
-        })
-
-        const filePath = res.tempFilePaths[0]
-        
-        // 上传图片
-        const cloudPath = `my-image${filePath.match(/\.[^.]+?$/)[0]}`
-        wx.cloud.uploadFile({
-          cloudPath,
-          filePath,
-          success: res => {
-            console.log('[上传文件] 成功：', res)
-
-            app.globalData.fileID = res.fileID
-            app.globalData.cloudPath = cloudPath
-            app.globalData.imagePath = filePath
-            
-            wx.navigateTo({
-              url: '../storageConsole/storageConsole'
-            })
-          },
-          fail: e => {
-            console.error('[上传文件] 失败：', e)
-            wx.showToast({
-              icon: 'none',
-              title: '上传失败',
-            })
-          },
-          complete: () => {
-            wx.hideLoading()
-          }
-        })
-      },
-      fail: e => {
-        console.error(e)
       }
     })
   },

@@ -1,91 +1,209 @@
 <custom-nav-bar navbarData="{{navbarData}}" />
 
 <!--保持顶栏始终置顶-->
-<view style="position:fixed;top:0;left:0;right:0">
-<view class="tabbar">
-  <tab-bar items="{{items}}" />
-</view>
-<view class="search">
-  <mp-searchbar bindselectresult="selectResult" search="{{search}}"></mp-searchbar>
-</view>
+<view style="position:fixed;top:0;left:0;right:0;z-index:1">
+  <view class="tabbar">
+    <tab-bar items="{{items}}" />
+  </view>
+  <view class="search">
+    <mp-searchbar bindselectresult="selectResult" search="{{search}}"></mp-searchbar>
+  </view>
 </view>
 
 <!--占位顶栏高度-->
 <view class="page__hd2" style="visibility:hidden;">
-<view>
-  <tab-bar items="{{items}}" />
-</view>
-<view>
-<mp-searchbar ></mp-searchbar>
-</view>
-</view>
-
-<view>
-  测试1
-</view>
-<view>
-  测试2
-</view>
-<view>
-  测试3
-</view>
-<view>
-  测试4
-</view><view>
-  测试5
-</view><view>
-  测试6
-</view><view>
-  测试7
-</view><view>
-  测试8
-</view><view>
-  测试9
-</view><view>
-  测试10
-</view><view>
-  测试1
-</view><view>
-  测试1
-</view><view>
-  测试1
-</view><view>
-  测试1
-</view><view>
-  测试1
-</view><view>
-  测试1
-</view><view>
-  测试1
-</view><view>
-  测试1
-</view><view>
-  测试10<view>
-  测试1
-</view><view>
-  测试1
-</view><view>
-  测试1
-</view><view>
-  测试1
-</view><view>
-  测试1
-</view><view>
-  测试1
-</view><view>
-  测试1
-</view><view>
-  测试1
-</view><view>
-  测试1
-</view><view>
-  测试1
-</view><view>
-  测试1
-</view><view>
-  测试1
-</view><view>
-  测试15
-</view>
+  <view>
+    <tab-bar items="{{items}}" />
+  </view>
+  <view>
+    <mp-searchbar></mp-searchbar>
+  </view>
 </view>
 
+<view>
+  <view class="card">
+    <view class="information">
+      <image src="tx.jpg" />
+      <span class="nickname">小赫</span>
+      <span class="block">来自 二手闲置</span>
+      <span class="time">5分钟前</span>
+      <span class="report">举报</span>
+    </view>
+    <view class="content">
+      这是一条有三张图片的测试，出售一个闲置的表情包，需要的可以加wx12345678
+    </view>
+    
+    <view style="display:flex">
+      <mp-row>
+        <mp-col span="{{8}}">
+          <view>
+            <view class="col">
+              <image class="img" bindtap="imgTap"  src="temp1.jpg" data-src="temp1.jpg" mode="widthFix"/>
+            </view>
+          </view>
+        </mp-col>
+        <mp-col span="{{8}}">
+          <view>
+            <view class="col">
+              <image class="img" bindtap="imgTap" src="temp2.jpg" mode="widthFix" />
+            </view>
+          </view>
+        </mp-col>
+        <mp-col span="{{8}}">
+          <view>
+            <view class="col">
+              <image class="img" bindtap="imgTap" src="temp7.jpg" mode="widthFix" />
+            </view>
+          </view>
+        </mp-col>
+      </mp-row>
+    </view>
+
+    <view style="display:flex">
+      <mp-row>
+      <mp-col span="{{12}}">
+          <view>
+            <view class="col">
+              <image class="praise" src="praise-ok.png" mode="widthFix" />
+              <span class="praise_count">66</span>
+            </view>
+          </view>
+        </mp-col>
+        <mp-col span="{{12}}">
+          <view>
+            <view class="col">
+              <image class="comment" src="comment.png" mode="widthFix" />
+              <span class="comment_count">88</span>
+            </view>
+          </view>
+        </mp-col>
+      </mp-row>
+    </view>
+    
+  </view>
+
+
+  <view class="card">
+    <view class="information">
+      <image src="tx.jpg" />
+      <span class="nickname">小赫</span>
+      <span class="block">来自 二手闲置</span>
+      <span class="time">1小时前</span>
+      <span class="report">举报</span>
+    </view>
+    <view class="content">
+      这是一条有一张图片的测试，出售一个闲置的表情包，需要的可以加wx12345678
+    </view>
+    <view  style="display:flex">
+      <mp-row>
+        <mp-col span="{{8}}">
+          <view>
+            <view class="col">
+              <image class="img" bindtap="imgTap" src="temp4.png" mode="widthFix" />
+            </view>
+          </view>
+        </mp-col>
+      </mp-row>
+    </view>
+
+    <view  style="display:flex">
+      <mp-row>
+      <mp-col span="{{12}}">
+          <view>
+            <view class="col">
+              <image class="praise_no" src="praise.png" mode="widthFix" />
+              <span class="praise_count_no">7</span>
+            </view>
+          </view>
+        </mp-col>
+        <mp-col span="{{12}}">
+          <view>
+            <view class="col">
+              <image class="comment" src="comment.png" mode="widthFix" />
+              <span class="comment_count">51</span>
+            </view>
+          </view>
+        </mp-col>
+      </mp-row>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="information">
+      <image src="tx.jpg" />
+      <span class="nickname">小赫</span>
+      <span class="block">来自 二手闲置</span>
+      <span class="time">1天前</span>
+      <span class="report">举报</span>
+    </view>
+    <view class="content">
+      这是一条有五张图片的测试，出售一个闲置的表情包，需要的可以加wx12345678
+    </view>
+    <view  style="display:flex">
+      <mp-row>
+        <mp-col span="{{8}}">
+          <view>
+            <view class="col">
+              <image class="img" bindtap="imgTap" src="temp5.jpg" mode="widthFix" />
+            </view>
+          </view>
+        </mp-col>
+        <mp-col span="{{8}}">
+          <view>
+            <view class="col">
+              <image class="img" bindtap="imgTap" src="temp6.gif" mode="widthFix" />
+            </view>
+          </view>
+        </mp-col>
+        <mp-col span="{{8}}">
+          <view>
+            <view class="col">
+              <image class="img" bindtap="imgTap" src="temp7.jpg" mode="widthFix" />
+            </view>
+          </view>
+        </mp-col>
+      </mp-row>
+    </view>
+      <view  style="display:flex">
+      <mp-row>
+        <mp-col span="{{8}}">
+          <view>
+            <view class="col">
+              <image class="img" bindtap="imgTap" src="temp1.jpg" mode="widthFix" />
+            </view>
+          </view>
+        </mp-col>
+        <mp-col span="{{8}}">
+          <view>
+            <view class="col">
+              <image class="img" bindtap="imgTap" src="temp2.jpg" mode="widthFix" />
+            </view>
+          </view>
+        </mp-col>
+      </mp-row>
+    </view>
+
+
+    <view  style="display:flex">
+      <mp-row>
+      <mp-col span="{{12}}">
+          <view>
+            <view class="col">
+              <image class="praise" src="praise-ok.png" mode="widthFix" />
+              <span class="praise_count">45</span>
+            </view>
+          </view>
+        </mp-col>
+        <mp-col span="{{12}}">
+          <view>
+            <view class="col">
+              <image class="comment" src="comment.png" mode="widthFix" />
+              <span class="comment_count">75</span>
+            </view>
+          </view>
+        </mp-col>
+      </mp-row>
+    </view>
+  </view>
+
+</view>

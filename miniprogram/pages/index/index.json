@@ -2,6 +2,11 @@
   "usingComponents": {
     "custom-nav-bar":"/components/bar/index",
     "tab-bar":"/components/tab/index",
-    "mp-searchbar": "weui-miniprogram/searchbar/searchbar"
+    "mp-searchbar": "weui-miniprogram/searchbar/searchbar",
+    "mp-cells": "weui-miniprogram/cells/cells",
+    "mp-cell": "weui-miniprogram/cell/cell",
+    "mp-col": "@miniprogram-component-plus/col",
+    "mp-row": "@miniprogram-component-plus/row",
+    "mp-gallery": "weui-miniprogram/gallery/gallery"
   }
 }

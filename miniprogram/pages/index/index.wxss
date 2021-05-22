@@ -7,3 +7,86 @@ page {
   justify-content: flex-start;
 }
 
+.card{
+  background: #ffffff;
+  margin:9px;
+  padding: 10px 10px 5px 10px;
+  border-radius:3px;
+}
+
+.information>image{
+  border-radius: 50%;
+  overflow:hidden;
+  width: 3em;
+  height: 3em;
+  margin-right: 8px;
+}
+
+.nickname{
+  position:absolute;
+  font-size: 1em;
+}
+
+.time{
+  position:relative;
+  bottom:0.7em;
+  left: 0.8em;
+  color:gray;
+  font-size: 0.8em;
+}
+
+.block{
+  position:relative;
+  color:gray;
+  bottom:0.7em;
+  font-size: 0.8em;
+
+}
+
+.report{
+  position:absolute;
+  right: 6%;
+  font-size: 0.8em;
+  color:green;
+  text-align: center;
+}
+
+.content{
+  font-size: 0.8em;
+}
+
+.img{
+  width: 100%;
+  border-radius: 5px;
+}
+
+.col{
+  padding: 2px;
+  text-align: center;
+}
+
+.praise{
+  width: 15%; 
+  vertical-align:middle; 
+}
+.praise_no{
+  width: 15%; 
+  vertical-align:middle; 
+}
+.comment{
+  width: 15%;
+  vertical-align:middle;
+}
+
+.praise_count{
+  font-size: 0.8em;
+  color:#109d58;
+}
+.praise_count_no{
+  font-size: 0.8em;
+}
+
+.comment_count{
+  font-size: 0.8em;
+}
+
