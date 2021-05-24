@@ -16,7 +16,7 @@
   <view class="page__bd">
     <mp-cells>
       <mp-cell>
-        <mp-uploader bindfail="uploadError" bindsuccess="uploadSuccess" select="{{selectFile}}" upload="{{uplaodFile}}" files="{{files}}" max-count="9"></mp-uploader>
+        <mp-uploader bindfail="uploadError" bindsuccess="uploadSuccess" binddelete="deleteImg" select="{{selectFile}}"  upload="{{uplaodFile}}" files="{{files}}" max-count="9"></mp-uploader>
       </mp-cell>
     </mp-cells>
   </view>

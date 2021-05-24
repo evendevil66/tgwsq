@@ -1,9 +1,9 @@
-<custom-nav-bar navbarData="{{navbarData}}" />
+<custom-nav-bar navbarData="{{navbarData}}"/>
 
 <!--保持顶栏始终置顶-->
 <view style="position:fixed;top:0;left:0;right:0;z-index:1">
   <view class="tabbar">
-    <tab-bar items="{{items}}" />
+    <tab-bar items="{{items}}" itemsId="{{itemsId}}" id="tab-bar" />
   </view>
   <view class="search">
     <mp-searchbar bindselectresult="selectResult" search="{{search}}"></mp-searchbar>
@@ -21,38 +21,25 @@
 </view>
 
 <view>
-  <view class="card">
+  <view class="card" wx:for="{{Posts}}" wx:key="item">
     <view class="information">
-      <image src="tx.jpg" />
-      <span class="nickname">小赫</span>
-      <span class="block">来自 二手闲置</span>
-      <span class="time">5分钟前</span>
-      <span class="report">举报</span>
+      <image src="{{item.profile}}" />
+      <span class="nickname">{{item.nickname}}</span>
+      <span class="block">来自 {{item.sortName}}</span>
+      <span class="time">{{item.createTime}}</span>
+      <span class="report" wx:if="{{!item.isMe}}">举报</span>
+      <span class="delete" wx:if="{{item.isMe}}">删除</span>
     </view>
     <view class="content">
-      这是一条有三张图片的测试，出售一个闲置的表情包，需要的可以加wx12345678
+      {{item.content}}
     </view>
     
-    <view style="display:flex">
+    <view style="display:flex" wx:if="{{item.images.length > 0}}">
       <mp-row>
-        <mp-col span="{{8}}">
+        <mp-col span="{{8}}" wx:for="{{item.images}}" wx:key="item" wx:for-index="imageIndex">
           <view>
             <view class="col">
-              <image class="img" bindtap="imgTap"  src="temp1.jpg" data-src="temp1.jpg" mode="widthFix"/>
-            </view>
-          </view>
-        </mp-col>
-        <mp-col span="{{8}}">
-          <view>
-            <view class="col">
-              <image class="img" bindtap="imgTap" src="temp2.jpg" mode="widthFix" />
-            </view>
-          </view>
-        </mp-col>
-        <mp-col span="{{8}}">
-          <view>
-            <view class="col">
-              <image class="img" bindtap="imgTap" src="temp7.jpg" mode="widthFix" />
+              <image class="img" bindtap="imgTap"  src="{{item}}" data-index="{{index}}" data-imageIndex="{{imageIndex}}" mode="center"/>
             </view>
           </view>
         </mp-col>
@@ -63,9 +50,13 @@
       <mp-row>
       <mp-col span="{{12}}">
           <view>
-            <view class="col">
-              <image class="praise" src="praise-ok.png" mode="widthFix" />
-              <span class="praise_count">66</span>
+            <view class="col" data-index="{{index}}" bindtap="praiseTap">
+                <image wx:if="{{item.isPraise}}"  class="praise" src="praise-ok.png" mode="widthFix" />
+                <span wx:if="{{item.isPraise}}"  class="praise_count">{{item.praisesCount}}</span>
+              
+                <image wx:if="{{!item.isPraise}}"  class="praise" src="praise.png" mode="widthFix" />
+                <span wx:if="{{(!item.isPraise && item.praisesCount>0)}}"  class="praise_count_no">{{item.praisesCount}}</span>
+              
             </view>
           </view>
         </mp-col>
@@ -73,7 +64,7 @@
           <view>
             <view class="col">
               <image class="comment" src="comment.png" mode="widthFix" />
-              <span class="comment_count">88</span>
+              <span wx:if="{{item.commentsCount>0}}" class="comment_count">{{item.commentsCount}}</span>
             </view>
           </view>
         </mp-col>
@@ -82,7 +73,7 @@
     
   </view>
 
-
+<!--
   <view class="card">
     <view class="information">
       <image src="tx.jpg" />
@@ -162,10 +153,6 @@
             </view>
           </view>
         </mp-col>
-      </mp-row>
-    </view>
-      <view  style="display:flex">
-      <mp-row>
         <mp-col span="{{8}}">
           <view>
             <view class="col">
@@ -181,6 +168,7 @@
           </view>
         </mp-col>
       </mp-row>
+      
     </view>
 
 
@@ -205,5 +193,7 @@
       </mp-row>
     </view>
   </view>
+
+  -->
 
 </view>

@@ -196,7 +196,7 @@ Component({
                 paddingRight = paddingLeft;
             }
             this.setData({
-                paddingLeft: paddingLeft,
+                //paddingLeft: paddingLeft,
                 paddingRight: paddingRight
             });
         },

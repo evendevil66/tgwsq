@@ -1,0 +1,9 @@
+<custom-nav-bar navbarData="{{navbarData}}" sections="{{sections}}" />
+
+
+<view class='content'>
+  <view class="title">太原工业微社区</view>
+   <view>申请获取以下权限</view>
+   <text>获得你的公开信息(昵称，头像等)</text>
+</view>
+<button type="primary" open-type="getUserInfo" bindtap="getUserProfile">授权登陆</button>

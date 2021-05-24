@@ -4,10 +4,12 @@ const themes = {
 
 const app = getApp()
 
+
 Component({
   /**
    * 组件的属性列表
    */
+  
   properties: {
     items: {
       type: Array,
@@ -19,6 +21,10 @@ Component({
           })
         }
       }
+    },
+    itemsId:{
+      type: Array,
+      value: [],
     },
     height: {
       type: String,
@@ -121,6 +127,9 @@ Component({
         this.barRight(index, this.data.domData);
       }
       this.triggerEvent('itemtap', e, { bubbles: true });
+      console.log("标签选择发生变化，目前index",index)
+      console.log("对应类目",this.data.items[index])
+      console.log("数据库ID",this.data.itemsId[index])
     }
   },
 
@@ -156,7 +165,6 @@ Component({
           that.barLeft(that.data.mSelected, that.data.textDomData);
           that.barRight(that.data.mSelected, that.data.textDomData);
         }
-        console.log(res)
       }).exec()
     },
   },

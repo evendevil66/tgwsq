@@ -45,9 +45,16 @@ page {
 
 .report{
   position:absolute;
-  right: 6%;
+  right: 5%;
   font-size: 0.8em;
   color:green;
+  text-align: center;
+}
+.delete{
+  position:absolute;
+  right: 5%;
+  font-size: 0.8em;
+  color:#1f1f1f;
   text-align: center;
 }
 
