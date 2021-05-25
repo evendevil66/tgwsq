@@ -2,22 +2,16 @@
 <custom-nav-bar navbarData="{{navbarData}}" />
 <view class="container" style="margin-top:60px">
 
-  <view class="list">
-    <view class="list-item" bindtap="testCgi">
-      <text class="request-text">用户 openid 获取成功</text>
+  <view class="list" style="margin-top:{{height}}px">
+    <view class="list-item">
+      <image class="profile" src="{{profile}}" />
+      <span class="nickname">{{nickname}}</span>
     </view>
-    <view class="list-item" bindtap="testCgi">
-      <text class="request-text">{{openid}}</text>
+    <view class="list-item">
+      <span class="notice">系统通知</span>
+      <i class="tip"></i>
+      <image class="noticeImg" src="email.png" />
     </view>
-  </view>
-
-  <!-- 云开发用户管理指引 -->
-  <view class="guide">
-    <text class="headline">云开发管理用户</text>
-    <text class="p">1. 打开云开发控制台</text>
-    <image class="image1" src="../../images/console-entrance.png" mode="aspectFit"></image>
-    <text class="p">2. 切换到 "用户管理" 标签页</text>
-    <text class="p">3. 查看访问小程序的用户列表</text>
   </view>
 
 </view>

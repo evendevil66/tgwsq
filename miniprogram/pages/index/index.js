@@ -6,7 +6,6 @@ const posts = db.collection('Posts') //帖子表
 const sorts = db.collection('Sorts') //分类表
 const praises = db.collection('Praises') //点赞表
 const comments = db.collection('Comments') //评论表
-var page = 0; //帖子分页
 
 Page({
   data: {
@@ -26,11 +25,24 @@ Page({
     itemsId:['0','28ee4e3e60a8f1cd1b3e979c5d52fb5b','79550af260a8f1fb191133532d1fefa3','79550af260a8f20a191138eb23345fed','b00064a760a8f21619b9b0e80337e6f1','cbddf0af60a8f2200a8e8f6f35e85c79'],
     User:[],
     Posts:[],
-    reload:false
+    reload:false,
+    itemsIndex:"0",
+    page:0,
+    showDelete:false,
+    showReport:false,
+    commandId:'0',
+    deleteIndex:-1,
+    reportConfirm:[{ text: '确认举报', value: 1 }],
+    deleteConfirm:[{ text: '确认删除', value: 1 }],
   },
+  /**
+   * 获取帖子信息
+   */
   getPosts:function(){
     var that = this;//.limit((page*10-9),page*10)
-    posts.orderBy("createTime","desc").skip(page*10).limit(10).get({
+    posts.orderBy("createTime","desc").skip(that.data.page*10).limit(10).where({
+      sortId:this.data.itemsIndex=="0"?{$regex:'.*'}:that.data.itemsIndex
+    }).get({
       success:function(res){
         for(let i=0;i<res.data.length;i++){
           let post = {
@@ -142,13 +154,16 @@ Page({
       }
     })
   },
+  /**
+   * 获取登陆用户信息
+   */
   getUser:function() {
     var that = this;
     var user=[];
     if(this.data.User.length==0){
       console.log("未获取用户信息,尝试数据库获取");
-      //setTimeout(function(){
-        //console.log("延迟500结束",app.globalData.openid);
+      setTimeout(function(){
+        console.log("延迟500结束",app.globalData.openid);
         users.where({
           _openid:app.globalData.openid
         }).get({
@@ -167,16 +182,30 @@ Page({
               console.log("已授权，将各项信息存入data")
               user[0] = res.data[0].openid
               user[1] = res.data[0].profile
-              user[2] = res.data[0].nikename
+              user[2] = res.data[0].nickname
               that.setData({
                 User:user
               })
+              app.globalData.User=user;
+              console.log(user)
             }
             
           }
         })
-      //},500)
+      },500)
     }
+  },
+  /**
+   * 根据postId删除帖子
+   * @param {string} postId 
+   */
+  deletePost:function(postId){
+    console.log("进入deletePost",postId)
+    posts.doc(postId).remove({
+      success: function(res){
+        console.log(res)
+      }
+    })
   },
   onLoad() {
     wx.cloud.init({
@@ -192,7 +221,6 @@ Page({
   },
   onShow(){
     console.log("进入主页onshow函数")
-    console.log("user数据为",this.data.User)
     if(this.data.reload){
       this.setData({
         reload:false
@@ -213,6 +241,20 @@ Page({
       }
       i++;
     }, 50)
+  },
+  onItemtap :function(event){
+    var that = this
+    if(event.detail.trim() == this.data.itemsIndex){
+      console.log("选择未发生变化：",event.detail)
+    }else{
+      that.setData({
+        itemsIndex:event.detail.trim(),
+        page:0,
+        reload:true
+      })
+      this.onShow();
+      console.log("选择发生变化：",event.detail)
+    }
   },
   search: function (value) {
     return new Promise((resolve, reject) => {
@@ -235,7 +277,6 @@ Page({
   selectResult: function (e) {
     console.log('select result', e.detail)
   },
-
   praiseTap:function(e){
     let index = e.currentTarget.dataset.index;
     var Posts = this.data.Posts
@@ -284,15 +325,47 @@ Page({
     
 
   },
-
   previewImage: function (url, urls) {
     wx.previewImage({
       current: url, // 当前显示图片的http链接
       urls: urls // 需要预览的图片http链接列表
     })
-    console.log(this.data.items)
   },
-
+  deleteTap:function(e){
+    this.setData({
+      showDelete:true,
+      commandId:e.currentTarget.dataset.postid,
+      deleteIndex:e.currentTarget.dataset.index
+    })
+    console.log("删除",e.currentTarget.dataset.postid)
+  },
+  reportTap:function(e){
+    this.setData({
+      showReport:true,
+      commandId:e.currentTarget.dataset.postid
+    })
+    console.log("举报",e.currentTarget.dataset.postid)
+  },
+  reportConfirm:function(e){
+    this.setData({
+      showReport:false
+    })
+    wx.showToast({
+      title: '已举报'
+    })
+  },
+  deleteConfirm:function(e){
+    var Posts = this.data.Posts
+    Posts.splice(this.data.deleteIndex,1)
+    this.setData({
+      showDelete:false,
+      Posts:Posts
+    })
+    this.deletePost(this.data.commandId)
+    wx.showToast({
+      title: '已删除'
+    })
+  },
   onGetOpenid: function () {
     // 调用云函数
     wx.cloud.callFunction({

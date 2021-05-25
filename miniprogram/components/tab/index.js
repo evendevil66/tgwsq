@@ -126,10 +126,11 @@ Component({
         this.barLeft(index, this.data.domData);
         this.barRight(index, this.data.domData);
       }
-      this.triggerEvent('itemtap', e, { bubbles: true });
-      console.log("标签选择发生变化，目前index",index)
-      console.log("对应类目",this.data.items[index])
-      console.log("数据库ID",this.data.itemsId[index])
+      this.triggerEvent('itemtap', this.data.itemsId[index]);
+      //console.log("标签选择发生变化，目前index",index)
+      //console.log("对应类目",this.data.items[index])
+      //console.log("数据库ID",this.data.itemsId[index])
+      
     }
   },
 

@@ -15,7 +15,9 @@ App({
       })
     }
 
-    this.globalData = {}
+    this.globalData = {
+      
+    }
 
     wx.getSystemInfo({
       success: (res) => {
