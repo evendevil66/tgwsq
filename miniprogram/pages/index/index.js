@@ -17,35 +17,25 @@ Page({
     requestResult: '',
     canIUseGetUserProfile: false,
     canIUseOpenData: wx.canIUse('open-data.type.userAvatarUrl'), // 如需尝试获取用户信息可改为false,
-    navbarData: {
-      title: "太原工业微社区",
-      show: 1
-    },
+    navbarData: {title: "太原工业微社区",show: 1}, //绑定顶栏内容，title为标题，show为1时显示发帖按钮，back为1时显示返回按钮
     items: ['推荐', '学术讨论', '二手闲置', '悬赏问答', '寻人问答', '校园拼车'],
     itemsId: ['0', 'cbddf0af60a8f2200a8e8f6f35e85c79', '28ee4e3e60a8f1cd1b3e979c5d52fb5b', '79550af260a8f1fb191133532d1fefa3', '79550af260a8f20a191138eb23345fed', 'b00064a760a8f21619b9b0e80337e6f1'],
-    User: [],
-    Posts: [],
-    reload: false,
-    itemsIndex: "0",
-    page: 0,
-    showDelete: false,
-    showReport: false,
-    commandId: '0',
-    deleteIndex: -1,
-    reportConfirm: [{
-      text: '确认举报',
-      value: 1
-    }],
-    deleteConfirm: [{
-      text: '确认删除',
-      value: 1
-    }],
-    postDeatils: [],
-    isTap: true,
-    PostsTemp: [],
-    searchValue: "",
-    searchOn: false,
-    loginStatus: -1
+    User: [], //当前用户信息
+    Posts: [], //绑定主页帖子信息
+    reload: false, //用于onShow函数判断是否需要重新加载
+    itemsIndex: "0", //当前页面的分类id，推荐页面为0
+    page: 0, //分页查询
+    showDelete: false,//绑定举报提示弹窗，点击举报按钮后变更为true
+    showReport: false, //绑定删除提示弹窗，点击删除按钮后变更为true
+    commandId: '0', //进行删除和举报操作时，存储操作的postid
+    deleteIndex: -1, //点击删除帖子后获得该条帖子在Posts中的下标
+    reportConfirm: [{text: '确认举报',value: 1}], //点击举报按钮后的弹窗内容
+    deleteConfirm: [{text: '确认删除',value: 1}], //点击删除按钮后的弹窗内容
+    isTap: true, //判断是否点击了帖子内的按钮，如点击了按钮则返回false
+    PostsTemp: [], //搜索帖子时，将完整内容临时存储
+    searchValue: "", //绑定搜索框Value
+    searchOn: false, //判断目前处于搜索状态
+    loginStatus: -1  //判断是否为登陆状态，-1为未登录，0为登陆过期，1为已登陆
   },
   /**
    * 获取帖子信息
@@ -420,6 +410,9 @@ Page({
 
 
   },
+  /**
+   * 页面加载触发事件
+   */
   onLoad() {
     wx.cloud.init({
       env: 'moment-7gyx9ooq74b057e1'
@@ -449,6 +442,9 @@ Page({
     this.rewriteSearchbar()
 
   },
+  /**
+   * 重写搜索框 用于绑定取消按钮
+   */
   rewriteSearchbar: function () {
     let sbar = this.selectComponent("#searchbar"),
       {
@@ -472,12 +468,18 @@ Page({
       }
     })
   },
+  /**
+   * 清除搜索框内容触发事件
+   */
   clearInput: function () {
     console.log("clear")
     this.setData({
       searchOn: false
     })
   },
+  /**
+   * 点击搜索框取消按钮触发事件
+   */
   cancel: function () {
     console.log("cancel")
     var that = this
@@ -495,6 +497,9 @@ Page({
     this.onShow()
 
   },
+  /**
+   * 页面显示触发事件
+   */
   onShow() {
     console.log("进入主页onshow函数")
     if (this.data.reload) {
@@ -526,6 +531,10 @@ Page({
       i++;
     }, 50)
   },
+  /**
+   * 点击顶部分类触发事件
+   * @param {object} event event.detail为点击后的新id
+   */
   onItemtap: function (event) {
 
     var that = this
@@ -542,6 +551,9 @@ Page({
     }
 
   },
+  /**
+   * 点击发帖按钮后触发事件
+   */
   onPostTap: function () {
     if (this.isLogin()) {
       console.log("posttap")
@@ -550,6 +562,9 @@ Page({
       })
     }
   },
+  /**
+   * 搜索框内容发生变化触发事件
+   */
   search: function (value) {
     var that = this
     return new Promise((resolve, reject) => {
@@ -577,6 +592,10 @@ Page({
     })
   },
 
+  /**
+   * 点击搜索结果后触发事件
+   * @param {object} e 
+   */
   selectResult: function (e) {
     console.log('select result', e.detail)
     console.log(this.data.PostsTemp)
@@ -598,6 +617,11 @@ Page({
     this.onShow()
 
   },
+
+  /**
+   * 点击点赞按钮触发事件
+   * @param {object} e e.currentTarget.dataset.index为点赞帖子在posts中的所属下标
+   */
   praiseTap: function (e) {
     this.setData({
       isTap: false
@@ -634,6 +658,12 @@ Page({
       })
     }
   },
+  /**
+   * 点击图片触发事件
+   * @param {object}} e 
+   * e.currentTarget.dataset.index 为帖子在posts中的所属下标
+   * e.currentTarget.dataset.imageindex 为image在post中的所属下标
+   */
   imgTap: function (e) {
     /**console.log(e.currentTarget.dataset.src)
     var urls=[];
@@ -652,12 +682,23 @@ Page({
 
 
   },
+  /**
+   * 大图预览图片
+   * @param {array} url 当前显示图片的http链接
+   * @param {array} urls 需要预览的图片http链接列表
+   */
   previewImage: function (url, urls) {
     wx.previewImage({
       current: url, // 当前显示图片的http链接
       urls: urls // 需要预览的图片http链接列表
     })
   },
+  /**
+   * 点击删除按钮触发事件
+   * @param {object} e 
+   * e.currentTarget.dataset.postid为所属帖子id
+   * e.currentTarget.dataset.index为帖子在posts中的下标
+   */
   deleteTap: function (e) {
     this.setData({
       isTap: false
@@ -671,6 +712,12 @@ Page({
       console.log("删除", e.currentTarget.dataset.postid)
     }
   },
+  /**
+   * 点击举报按钮触发事件
+   * @param {object} e 
+   * e.currentTarget.dataset.postid为所属帖子id
+   * e.currentTarget.dataset.index为帖子在posts中的下标
+   */
   reportTap: function (e) {
     this.setData({
       isTap: false
@@ -683,6 +730,9 @@ Page({
       console.log("举报", e.currentTarget.dataset.postid)
     }
   },
+  /**
+   * 确认举报触发事件
+   */
   reportConfirm: function (e) {
     this.setData({
       showReport: false
@@ -691,6 +741,9 @@ Page({
       title: '已举报'
     })
   },
+  /**
+   * 确认删除触发事件
+   */
   deleteConfirm: function (e) {
     var Posts = this.data.Posts
     Posts.splice(this.data.deleteIndex, 1)
@@ -703,6 +756,11 @@ Page({
       title: '已删除'
     })
   },
+  /**
+   * 页面下滑至底部触发事件
+   * 下滑到底部后，分页page属性+1
+   * 执行getPosts()和onShow()函数
+   */
   onReachBottom: function (e) {
 
     if (!this.data.searchOn) {
