@@ -1,4 +1,4 @@
-<custom-nav-bar navbarData="{{navbarData}}"/>
+<custom-nav-bar navbarData="{{navbarData}}" bind:onPostTap="onPostTap" />
 
 <!--保持顶栏始终置顶-->
 <view style="position:fixed;top:0;left:0;right:0;z-index:1">
@@ -6,7 +6,8 @@
     <tab-bar items="{{items}}" itemsId="{{itemsId}}" id="tab-bar" bind:itemtap="onItemtap" />
   </view>
   <view class="search">
-    <mp-searchbar bindselectresult="selectResult" search="{{search}}"></mp-searchbar>
+    <mp-searchbar id="searchbar" bindselectresult="selectResult" search="{{search}}" value="{{searchValue}}"
+      bindcancel="cancel" bindclear="clearInput"></mp-searchbar>
   </view>
 </view>
 
@@ -21,31 +22,35 @@
 </view>
 
 
-<mp-actionSheet bindactiontap="reportConfirm" show="{{showReport}}" actions="{{reportConfirm}}" title="请确定该内容为违规内容，多次恶意举报将被限制登陆">
+<mp-actionSheet bindactiontap="reportConfirm" show="{{showReport}}" actions="{{reportConfirm}}"
+  title="请确定该内容为违规内容，多次恶意举报将被限制登陆">
 </mp-actionSheet>
-<mp-actionSheet bindactiontap="deleteConfirm" show="{{showDelete}}" actions="{{deleteConfirm}}" title="帖子删除后将无法恢复，请确定操作">
+<mp-actionSheet bindactiontap="deleteConfirm" show="{{showDelete}}" actions="{{deleteConfirm}}"
+  title="帖子删除后将无法恢复，请确定操作">
 </mp-actionSheet>
 
-<view>
-  <view class="card" wx:for="{{Posts}}" wx:key="item">
+<view style="{{searchOn?'margin-top:66px':''}}">
+  <view class="card" wx:for="{{Posts}}" wx:key="item" bindtap="postOnTap" data-post="{{item}}">
     <view class="information">
       <image src="{{item.profile}}" />
       <span class="nickname">{{item.nickname}}</span>
       <span class="block">来自 {{item.sortName}}</span>
       <span class="time">{{item.createTime}}</span>
       <span class="report" wx:if="{{!item.isMe}}" bindtap="reportTap" data-postId="{{item.postId}}">举报</span>
-      <span class="delete" wx:if="{{item.isMe}}" bindtap="deleteTap" data-postId="{{item.postId}}" data-index="{{index}}">删除</span>
+      <span class="delete" wx:if="{{item.isMe}}" bindtap="deleteTap" data-postId="{{item.postId}}"
+        data-index="{{index}}">删除</span>
     </view>
     <view class="content">
       {{item.content}}
     </view>
-    
+
     <view style="display:flex" wx:if="{{item.images.length > 0}}">
       <mp-row>
         <mp-col span="{{8}}" wx:for="{{item.images}}" wx:key="item" wx:for-index="imageIndex">
           <view>
             <view class="col">
-              <image class="img" bindtap="imgTap"  src="{{item}}" data-index="{{index}}" data-imageIndex="{{imageIndex}}" mode="aspectFill" lazy-load="true"/>
+              <image class="img" bindtap="imgTap" src="{{item}}" data-index="{{index}}" data-imageIndex="{{imageIndex}}"
+                mode="aspectFill" lazy-load="true" />
             </view>
           </view>
         </mp-col>
@@ -54,14 +59,15 @@
 
     <view style="display:flex">
       <mp-row>
-      <mp-col span="{{12}}">
+        <mp-col span="{{12}}">
           <view>
             <view class="col" data-index="{{index}}" bindtap="praiseTap">
-                <image  class="praise" src="{{item.isPraise?'praise-ok.png':'praise.png'}}" mode="widthFix" />
-                <span wx:if="{{item.isPraise}}"  class="praise_count">{{item.praisesCount}}</span>
-              
-                <span wx:if="{{(!item.isPraise && item.praisesCount>0)}}"  class="praise_count_no">{{item.praisesCount}}</span>
-              
+              <image class="praise" src="{{item.isPraise?'praise-ok.png':'praise.png'}}" mode="widthFix" />
+              <span wx:if="{{item.isPraise}}" class="praise_count">{{item.praisesCount}}</span>
+
+              <span wx:if="{{(!item.isPraise && item.praisesCount>0)}}"
+                class="praise_count_no">{{item.praisesCount}}</span>
+
             </view>
           </view>
         </mp-col>
@@ -75,10 +81,10 @@
         </mp-col>
       </mp-row>
     </view>
-    
+
   </view>
 
-<!--
+  <!--
   <view class="card">
     <view class="information">
       <image src="tx.jpg" />

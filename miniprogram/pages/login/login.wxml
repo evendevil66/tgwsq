@@ -5,5 +5,7 @@
   <view class="title">太原工业微社区</view>
    <view>申请获取以下权限</view>
    <text>获得你的公开信息(昵称，头像等)</text>
+   <text style="white-space:pre-wrap">\n {{status==-1?'您访问的操作需要授权才能继续，您也可以暂不授权继续浏览':'您的登陆已过期，需要重新授权才能继续，您也可以暂不授权继续浏览'}}</text>
 </view>
 <button type="primary" open-type="getUserInfo" bindtap="getUserProfile">授权登陆</button>
+<button type="default" bindtap="return" style="margin-top:20px">暂不登陆</button>

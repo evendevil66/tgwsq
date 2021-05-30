@@ -1,6 +1,8 @@
 // pages/userConsole/userConsole.js
 const app = getApp()
 const openid = "0"
+const db = wx.cloud.database()
+const notice = db.collection('Notice') //系统通知表
 Page({
 
   data: {
@@ -12,11 +14,12 @@ Page({
       show: 0,
       back: 0
     },
+    noRead:false
 
   },
 
   onLoad: function (options) {
-
+    
   },
 
   onShow: function (options) {
@@ -34,5 +37,30 @@ Page({
         clearInterval(load)
       }
     }, 100)
+
+    var that = this
+    notice.where({
+      openid:app.globalData.openid,
+      isRead:false
+    }).count({
+      success:function(res){
+
+        console.log(res.total)
+        if(res.total > 0){
+          that.setData({
+            noRead:true
+          })
+        }else{
+          that.setData({
+            noRead:false
+          })
+        }
+      }
+    })
+  },
+  noticeTap:function(){
+    wx.navigateTo({
+      url: "../notice/notice"
+    })
   }
 })

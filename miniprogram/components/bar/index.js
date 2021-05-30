@@ -1,6 +1,6 @@
 const app = getApp()
 
-wx.cloud.callFunction({
+/**wx.cloud.callFunction({
   name: 'login',
   data: {},
   success: res => {
@@ -10,7 +10,7 @@ wx.cloud.callFunction({
   fail: err => {
     console.error('[云函数] [login] 调用失败', err)
   }
-})
+})**/
 
 Component({
   properties: {
@@ -47,9 +47,7 @@ Component({
   methods: {
   // 发帖
     _navnew() {
-      wx.navigateTo({
-        url: '/pages/post/post',//发帖的地址
-      })
+      this.triggerEvent('onPostTap');
     },
     _navback(){
       wx.navigateBack({

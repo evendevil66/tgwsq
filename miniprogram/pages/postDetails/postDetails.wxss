@@ -1,0 +1,79 @@
+/* miniprogram/pages/postDetails/postDetails.wxss */
+@import "../index/index.wxss";
+
+
+
+.commentItem{
+  margin-top: 10px;
+}
+
+.commentImg{
+  border-radius: 50%;
+  overflow:hidden;
+  width: 2em;
+  height: 2em;
+  margin-right: 10px;
+  margin-left: 5px;
+}
+.commentNickname{
+  position:absolute;
+  font-size: 0.8em;
+}
+
+.commentTime{
+  position:relative;
+  top:0.1em;
+  color:gray;
+  font-size: 0.6em;
+}
+
+.commentText{
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.divLine{
+  background: #E0E3DA;
+  width: 100%;
+  height: 1rpx;
+ }
+
+ .inputDiv{
+  position: fixed;
+  bottom: 0px;
+  background-color: #ffffff;
+  width:100%;
+  height: 40px;
+
+}
+
+.inputDiv>input{
+  background-color:#f0f0f0;
+  border-radius: 10px;
+  width: auto;
+  height: 30px;
+  margin: 5px 10px 5px 10px;
+  text-align: left;
+  padding-left: 10px;
+  padding-right: 60px;
+  z-index: 1;
+}
+
+.submit{
+  border-radius: 10px;
+  position:fixed;
+  margin: 0 auto;
+  bottom: 5px;
+  right: 10px;
+  height: 30px;
+  z-index: 2;
+}
+
+page{
+  padding-bottom: 40px;
+}
+
+.noCommnet{
+  color: gray;
+  text-align: center;
+}

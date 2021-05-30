@@ -1,0 +1,59 @@
+<custom-nav-bar navbarData="{{navbarData}}" />
+
+
+<mp-actionSheet bindactiontap="reportConfirm" show="{{showReport}}" actions="{{reportConfirm}}"
+  title="请确定该内容为违规内容，多次恶意举报将被限制登陆">
+</mp-actionSheet>
+<mp-actionSheet bindactiontap="deleteConfirm" show="{{showDelete}}" actions="{{deleteConfirm}}"
+  title="帖子删除后将无法恢复，请确定操作">
+</mp-actionSheet>
+<view class="card" style="margin-top:{{height}}px">
+  <view class="information">
+    <image src="{{post.profile}}" />
+    <span class="nickname">{{post.nickname}}</span>
+    <span class="block">来自 {{post.sortName}}</span>
+    <span class="time">{{post.createTime}}</span>
+    <span class="report" wx:if="{{!post.isMe}}" bindtap="reportTap" data-postId="{{post.postId}}">举报</span>
+    <span class="delete" wx:if="{{post.isMe}}" bindtap="deleteTap" data-postId="{{post.postId}}">删除</span>
+  </view>
+  <view class="content">
+    {{post.content}}
+  </view>
+
+  <view style="display:flex" wx:if="{{post.images.length > 0}}">
+    <mp-row>
+      <mp-col span="{{8}}" wx:for="{{post.images}}" wx:key="item" wx:for-index="imageIndex">
+        <view>
+          <view class="col">
+            <image class="img" bindtap="imgTap" src="{{item}}" data-index="{{index}}" data-imageIndex="{{imageIndex}}"
+              mode="aspectFill" lazy-load="true" />
+          </view>
+        </view>
+      </mp-col>
+    </mp-row>
+  </view>
+
+
+  <view style="margin-top:15px;">
+    <span>评论</span>
+
+    <view wx:for="{{commentsItem}}">
+      <view class="commentItem">
+        <image class="commentImg" src="{{item.profile}}" />
+        <span class="commentNickname">{{item.nickname}}</span>
+        <span class="commentTime">{{item.createTime}}</span>
+        <view class="commentText">
+          {{item.content}}
+        </view>
+      </view>
+      <view class="divLine"></view>
+    </view>
+  </view>
+  <div wx:if="{{noCommnet}}" class="noCommnet">暂无评论</div>
+
+</view>
+
+<view class="inputDiv">
+  <input class="weui-input" placeholder="来发表自己的评论吧" bindfocus="inputOnFocus" bindblur="inputOnBlur" value="{{content}}" />
+  <button class="submit" type="primary" size="mini" bindtap="submit" wx:if="{{inputIsFocus}}">发表</button>
+</view>

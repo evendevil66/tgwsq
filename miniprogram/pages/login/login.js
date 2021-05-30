@@ -40,7 +40,7 @@ Page({
             openid:app.globalData.openid
           }).update({
             data:{
-              nikename:res.userInfo.nickName,
+              nickname:res.userInfo.nickName,
               profile:res.userInfo.avatarUrl,
               updateTime:new Date()
             },
@@ -60,11 +60,19 @@ Page({
         var prevPage = pages[pages.length - 2];
         prevPage.setData({
           User:user,
+          loginStatus:1
         });
+        app.globalData.User = user;
+
         wx.navigateBack({
           delta: 0,
         })
       }
+    })
+  },
+  return:function(){
+    wx.navigateBack({
+      delta: 0,
     })
   },
 

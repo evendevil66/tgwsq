@@ -1,0 +1,17 @@
+<custom-nav-bar navbarData="{{navbarData}}" />
+
+<view class="container" style="margin-top:60px">
+
+<view class="list" style="margin-top:{{height}}px">
+
+  <view wx:for="{{notices}}" class="list-item" style="{{item.isRead?'color:gray':''}}" data-postid="{{item.postId}}" bindtap="itemTap">
+    {{item.content}}
+  </view>
+
+  <view wx:if="{{notices.length==0}}" class="list-item">
+    暂无通知
+  </view>
+
+</view>
+
+</view>

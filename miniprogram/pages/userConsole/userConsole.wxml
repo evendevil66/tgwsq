@@ -7,9 +7,9 @@
       <image class="profile" src="{{profile}}" />
       <span class="nickname">{{nickname}}</span>
     </view>
-    <view class="list-item">
+    <view class="list-item"  bindtap="noticeTap">
       <span class="notice">系统通知</span>
-      <i class="tip"></i>
+      <i class="tip" wx:if="{{noRead}}"></i>
       <image class="noticeImg" src="email.png" />
     </view>
   </view>

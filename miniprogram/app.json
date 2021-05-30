@@ -1,8 +1,10 @@
 {
   "pages": [
     "pages/index/index",
+    "pages/postDetails/postDetails",
     "pages/login/login",
     "pages/userConsole/userConsole",
+    "pages/post/post",
     "pages/storageConsole/storageConsole",
     "pages/databaseGuide/databaseGuide",
     "pages/deployFunctions/deployFunctions",
@@ -14,8 +16,7 @@
     "pages/im/im",
     "pages/im/room/room",
     "components/bar/index",
-    "components/tab/index",
-    "pages/post/post"
+    "pages/notice/notice"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",
