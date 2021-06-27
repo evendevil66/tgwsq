@@ -198,6 +198,8 @@ Page({
             comment.createTime = "刚刚"
             comment.profile = app.globalData.User[1]
             comment.nickname = app.globalData.User[2]
+            //console.log(app.globalData.User)
+            console.log(comment)
             commentsItem.unshift(comment)
   
             console.log(commentsItem)
@@ -298,6 +300,33 @@ Page({
       success: function(res){
         console.log(res)
       }
+    })
+  },
+    /**
+   * 点击图片触发事件
+   * @param {object}} e 
+   * e.currentTarget.dataset.index 为帖子在posts中的所属下标
+   * e.currentTarget.dataset.imageindex 为image在post中的所属下标
+   */
+  imgTap: function (e) {
+    console.log(this.data);
+    var url = this.data.post.images[e.currentTarget.dataset.imageindex];
+    var urls = [];
+    urls['urls'] = [];
+    urls['urls'] = urls['urls'].concat(url);
+    this.previewImage(url, this.data.post.images)
+
+
+  },
+  /**
+   * 大图预览图片
+   * @param {array} url 当前显示图片的http链接
+   * @param {array} urls 需要预览的图片http链接列表
+   */
+  previewImage: function (url, urls) {
+    wx.previewImage({
+      current: url, // 当前显示图片的http链接
+      urls: urls // 需要预览的图片http链接列表
     })
   },
 })

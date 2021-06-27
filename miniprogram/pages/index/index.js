@@ -17,7 +17,10 @@ Page({
     requestResult: '',
     canIUseGetUserProfile: false,
     canIUseOpenData: wx.canIUse('open-data.type.userAvatarUrl'), // 如需尝试获取用户信息可改为false,
-    navbarData: {title: "太原工业微社区",show: 1}, //绑定顶栏内容，title为标题，show为1时显示发帖按钮，back为1时显示返回按钮
+    navbarData: {
+      title: "太原工业微社区",
+      show: 1
+    }, //绑定顶栏内容，title为标题，show为1时显示发帖按钮，back为1时显示返回按钮
     items: ['推荐', '学术讨论', '二手闲置', '悬赏问答', '寻人问答', '校园拼车'],
     itemsId: ['0', 'cbddf0af60a8f2200a8e8f6f35e85c79', '28ee4e3e60a8f1cd1b3e979c5d52fb5b', '79550af260a8f1fb191133532d1fefa3', '79550af260a8f20a191138eb23345fed', 'b00064a760a8f21619b9b0e80337e6f1'],
     User: [], //当前用户信息
@@ -25,143 +28,158 @@ Page({
     reload: false, //用于onShow函数判断是否需要重新加载
     itemsIndex: "0", //当前页面的分类id，推荐页面为0
     page: 0, //分页查询
-    showDelete: false,//绑定举报提示弹窗，点击举报按钮后变更为true
+    showDelete: false, //绑定举报提示弹窗，点击举报按钮后变更为true
     showReport: false, //绑定删除提示弹窗，点击删除按钮后变更为true
     commandId: '0', //进行删除和举报操作时，存储操作的postid
     deleteIndex: -1, //点击删除帖子后获得该条帖子在Posts中的下标
-    reportConfirm: [{text: '确认举报',value: 1}], //点击举报按钮后的弹窗内容
-    deleteConfirm: [{text: '确认删除',value: 1}], //点击删除按钮后的弹窗内容
+    reportConfirm: [{
+      text: '确认举报',
+      value: 1
+    }], //点击举报按钮后的弹窗内容
+    deleteConfirm: [{
+      text: '确认删除',
+      value: 1
+    }], //点击删除按钮后的弹窗内容
     isTap: true, //判断是否点击了帖子内的按钮，如点击了按钮则返回false
     PostsTemp: [], //搜索帖子时，将完整内容临时存储
     searchValue: "", //绑定搜索框Value
     searchOn: false, //判断目前处于搜索状态
-    loginStatus: -1  //判断是否为登陆状态，-1为未登录，0为登陆过期，1为已登陆
+    loginStatus: -1, //判断是否为登陆状态，-1为未登录，0为登陆过期，1为已登陆
   },
   /**
    * 获取帖子信息
    */
   getPosts: function () {
-    var that = this; //.limit((page*10-9),page*10)
-    posts.orderBy("createTime", "desc").skip(that.data.page * 10).limit(10).where({
-      sortId: this.data.itemsIndex == "0" ? {
-        $regex: '.*'
-      } : that.data.itemsIndex
-    }).get({
-      success: function (res) {
-        for (let i = 0; i < res.data.length; i++) {
-          let post = {
-            openid: "", //1
-            nickname: "", //1
-            profile: "", //1
-            createTime: "", //1
-            sortName: "", //1
-            content: "", //1
-            images: [], //1
-            praisesCount: 0, //1
-            commentsCount: 0, //1
-            isPraise: false, //1
-            isMe: false, //1,
-            postId: "" //1
-          }
-          let createTime = new Date(res.data[i].createTime);
-          let time = (new Date() - createTime) / 1000
+    var that = this;
+    var flag = setInterval(function () {
+      if (typeof (app.globalData.openid) == "undefined") {
 
-          if (time < 60) {
-            post.createTime = "1分钟前"
-          } else if (time < 60 * 60) {
-            post.createTime = parseInt((time / 60)) + "分钟前"
-          } else if (time < 60 * 60 * 24) {
-            post.createTime = parseInt((time / 60 / 60)) + "小时前"
-          } else if (time < 60 * 60 * 24 * 30) {
-            post.createTime = parseInt((time / 60 / 60 / 24)) + "天前"
-          } else {
-            if (createTime.getFullYear() == new Date().getFullYear()) {
-              post.createTime = (createTime.getMonth() + 1) + "月" + createTime.getDay() + "日";
-            } else {
-              post.createTime = createTime.getFullYear() + "年" + (createTime.getMonth() + 1) + "月" + createTime.getDay() + "日";
-            }
+      } else {
 
-          }
-
-          //填入发帖内容到post
-          post.content = res.data[i].content;
-          post.postId = res.data[i]._id;
-
-          //通过云开发函数换取图片临时访问地址
-          wx.cloud.getTempFileURL({
-            fileList: res.data[i].images,
-            success: res => {
-              for (let j = 0; j < res.fileList.length; j++)
-                post.images.push(res.fileList[j].tempFileURL) //填入帖子图片url到post
-            },
-          })
-
-          //获取并填入发帖人openid、昵称、头像，判断发帖人与用户是否为同一人填入isMe
-          users.where({
-            _openid: res.data[i].openid
-          }).get({
-            success: function (res) {
-              post.openid = res.data[0].openid
-              post.nickname = res.data[0].nickname
-              post.profile = res.data[0].profile
-              if (post.openid == app.globalData.openid) {
-                post.isMe = true;
+         //.limit((page*10-9),page*10)
+        posts.orderBy("createTime", "desc").skip(that.data.page * 10).limit(10).where({
+          sortId: that.data.itemsIndex == "0" ? {
+            $regex: '.*'
+          } : that.data.itemsIndex
+        }).get({
+          success: function (res) {
+            for (let i = 0; i < res.data.length; i++) {
+              let post = {
+                openid: "", //1
+                nickname: "", //1
+                profile: "", //1
+                createTime: "", //1
+                sortName: "", //1
+                content: "", //1
+                images: [], //1
+                praisesCount: 0, //1
+                commentsCount: 0, //1
+                isPraise: false, //1
+                isMe: false, //1,
+                postId: "" //1
               }
-            }
-          })
+              let createTime = new Date(res.data[i].createTime);
+              let time = (new Date() - createTime) / 1000
 
-          //获取帖子分类对应名称
-          sorts.where({
-            _id: res.data[i].sortId
-          }).get({
-            success: function (res) {
-              post.sortName = res.data[0].name
-            }
-          })
+              if (time < 60) {
+                post.createTime = "1分钟前"
+              } else if (time < 60 * 60) {
+                post.createTime = parseInt((time / 60)) + "分钟前"
+              } else if (time < 60 * 60 * 24) {
+                post.createTime = parseInt((time / 60 / 60)) + "小时前"
+              } else if (time < 60 * 60 * 24 * 30) {
+                post.createTime = parseInt((time / 60 / 60 / 24)) + "天前"
+              } else {
+                if (createTime.getFullYear() == new Date().getFullYear()) {
+                  post.createTime = (createTime.getMonth() + 1) + "月" + createTime.getDay() + "日";
+                } else {
+                  post.createTime = createTime.getFullYear() + "年" + (createTime.getMonth() + 1) + "月" + createTime.getDay() + "日";
+                }
 
-          //获取评论数量
-          comments.where({
-            postId: res.data[i]._id
-          }).count({
-            success: function (res) {
-              post.commentsCount = res.total
-            }
-          })
-
-          //获取点赞数量
-          praises.where({
-            postid: res.data[i]._id
-          }).count({
-            success: function (res) {
-              post.praisesCount = res.total
-            }
-          })
-
-          //获取是否已点赞
-          if(that.data.loginStatus != 1){
-            post.isPraise = false
-          }else{
-          praises.where({
-            postid: res.data[i]._id,
-            openid: app.globalData.openid
-          }).count({
-            success: function (res) {
-              if (res.total > 0) {
-                post.isPraise = true
               }
+
+              //填入发帖内容到post
+              post.content = res.data[i].content;
+              post.postId = res.data[i]._id;
+
+              //通过云开发函数换取图片临时访问地址
+              wx.cloud.getTempFileURL({
+                fileList: res.data[i].images,
+                success: res => {
+                  for (let j = 0; j < res.fileList.length; j++)
+                    post.images.push(res.fileList[j].tempFileURL) //填入帖子图片url到post
+                },
+              })
+
+              //获取并填入发帖人openid、昵称、头像，判断发帖人与用户是否为同一人填入isMe
+              users.where({
+                _openid: res.data[i].openid
+              }).get({
+                success: function (res) {
+                  post.openid = res.data[0].openid
+                  post.nickname = res.data[0].nickname
+                  post.profile = res.data[0].profile
+                  if (post.openid == app.globalData.openid) {
+                    post.isMe = true;
+                  }
+                }
+              })
+
+              //获取帖子分类对应名称
+              sorts.where({
+                _id: res.data[i].sortId
+              }).get({
+                success: function (res) {
+                  post.sortName = res.data[0].name
+                }
+              })
+
+              //获取评论数量
+              comments.where({
+                postId: res.data[i]._id
+              }).count({
+                success: function (res) {
+                  post.commentsCount = res.total
+                }
+              })
+
+              //获取点赞数量
+              praises.where({
+                postid: res.data[i]._id
+              }).count({
+                success: function (res) {
+                  post.praisesCount = res.total
+                }
+              })
+
+              //获取是否已点赞
+                praises.where({
+                  postid: res.data[i]._id,
+                  openid: app.globalData.openid
+                }).count({
+                  success: function (res) {
+                    if (res.total > 0) {
+                      post.isPraise = true
+                    }
+                  }
+                })
+
+              var Posts = that.data.Posts;
+              Posts.push(post);
+              that.setData({
+                Posts: Posts
+              })
+
+
+
             }
-          })
-        }
-
-          var Posts = that.data.Posts;
-          Posts.push(post);
-          that.setData({
-            Posts: Posts
-          })
-
-        }
+          }
+        })
+        clearInterval(flag)
       }
-    })
+
+    }, 100);
+
   },
   /**
    * 通过帖子内容模糊获取帖子信息
@@ -265,17 +283,17 @@ Page({
           })
 
           //获取是否已点赞
-            praises.where({
-              postid: res.data[i]._id,
-              openid: app.globalData.openid
-            }).count({
-              success: function (res) {
-                if (res.total > 0) {
-                  post.isPraise = true
-                }
+          praises.where({
+            postid: res.data[i]._id,
+            openid: app.globalData.openid
+          }).count({
+            success: function (res) {
+              if (res.total > 0) {
+                post.isPraise = true
               }
-            })
-          
+            }
+          })
+
 
           var Posts = that.data.Posts;
           Posts.push(post);
@@ -296,6 +314,7 @@ Page({
     app.globalData.User = []
     if (this.data.User.length == 0) {
       console.log("未获取用户信息,尝试数据库获取");
+      var flag = false
       var getuser = setInterval(function () {
         if (typeof (app.globalData.openid) == "undefined") {
           console.log("用户信息获取", app.globalData.openid);
@@ -322,6 +341,7 @@ Page({
                   loginStatus: 0
                 })
               } else {
+                flag = true
                 console.log("已授权，将各项信息存入data")
                 that.setData({
                   loginStatus: 1
@@ -329,13 +349,13 @@ Page({
                 user[0] = res.data[0].openid
                 user[1] = res.data[0].profile
                 user[2] = res.data[0].nickname
+                app.globalData.User = user;
                 that.setData({
                   User: user
                 })
-                app.globalData.User = user;
+
                 console.log(user)
               }
-
             }
           })
           clearInterval(getuser)
@@ -433,11 +453,12 @@ Page({
     })
     //this.getItem();
     wx.showToast({
-      icon:'loading',
+      icon: 'loading',
       title: '正在加载',
-      duration:1500
+      duration: 2000
     })
-    this.getUser();
+    var flag = this.getUser()
+    console.log(flag)
     this.getPosts();
     this.rewriteSearchbar()
 
@@ -511,13 +532,13 @@ Page({
         Posts: []
       })
       wx.showToast({
-        icon:'loading',
+        icon: 'loading',
         title: '正在加载',
-        duration:2000
+        duration: 2000
       })
-        this.getUser();
-        this.getPosts();
-        
+      this.getUser();
+      this.getPosts();
+
     }
 
     var i = 0
